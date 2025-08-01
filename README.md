@@ -40,7 +40,7 @@ Easy extension for other cities or endpoints
 CSV outputs for convenient data consumption
 
 ## Project Structure
-
+```bash
 .
 ├── main.py                           # Entrypoint for orchestrating the pipeline
 ├── src/
@@ -58,7 +58,7 @@ CSV outputs for convenient data consumption
 │   └── data/
 │       └── ...                       # Contains all intermediate and final datasets
 
-
+```
 ## Environment Setup
 You must have Python 3.7+ installed.
 
