@@ -190,6 +190,7 @@ swiggy/data/menus/output/{city}/{restaurant_id}.csv
 After a run, you’ll typically get:
 
 text
+```bash
 swiggy/
 ├── data/
 │   └── restaurants/
@@ -212,6 +213,7 @@ swiggy/
 │               └── *.csv
 Each row in the final menu CSV contains restaurant metadata and menu item details.
 
+```
 ## Error Handling
 Most scripts are robust to missing/invalid files; errors are reported, but processing continues.
 
