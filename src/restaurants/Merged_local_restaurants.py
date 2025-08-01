@@ -7,14 +7,6 @@ def Merged_local_restaurants(city):
     folder_path = f"swiggy/data/restaurants/output/{city}/local/"
 
     try:
-        # csv_files = [
-        #     obj["Key"]
-        #     for obj in s3.list_objects_v2(Bucket=bucket, Prefix=f"{folder_path}")[
-        #         "Contents"
-        #     ]
-        #     if obj["Key"].endswith(".csv")
-        # ]
-
         csv_files = [
             os.path.join(folder_path, f)
             for f in os.listdir(folder_path)
@@ -24,9 +16,6 @@ def Merged_local_restaurants(city):
         merged_data = pd.DataFrame()
         for csv_file in csv_files:
             try:
-                # Read CSV directly from S3
-                # csv_object = s3.get_object(Bucket=bucket, Key=csv_file)
-                # df = pd.read_csv(pd.io.common.BytesIO(csv_object["Body"].read()))
                 df = pd.read_csv(csv_file)
                 merged_data = pd.concat([merged_data, df], ignore_index=True)
 
@@ -58,13 +47,4 @@ def Merged_local_restaurants(city):
 
 
 if __name__ == "__main__":
-    city="Jabalpur"
-    # s3 = boto3.client(
-    #         "s3",
-    #         region_name="ap-south-1",
-    #         aws_access_key_id="AKIATWA3UBH1rNVNiCq",
-    #     )
-
-    # bucket = "swiggy-zomato-scraper"
-    city = city.capitalize()
     Merged_local_restaurants()

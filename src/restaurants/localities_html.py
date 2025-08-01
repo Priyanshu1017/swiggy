@@ -15,8 +15,6 @@ def local_html(city):
         f"swiggy/data/restaurants/output/{city}/swiggy_locality_{city}.csv"
     )
     print(f"swiggy/data/restaurants/output/{city}/swiggy_locality_{city}.csv")
-    # csv_object = s3.get_object(Bucket=bucket, Key=csv_key)
-    # df = pd.read_csv(pd.io.common.BytesIO(csv_object["Body"].read()))
     df = pd.read_csv(csv_key)
 
     count_created = 0  # Counter for the number of files created
@@ -28,8 +26,6 @@ def local_html(city):
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--log-level=3")
             driver = webdriver.Chrome(options=chrome_options)
-            # driver = webdriver.Chrome()
-            # try:
             link = row["Link"]
             restaurant_name = row["name"].strip()
             print("Processing link: {}".format(link))
@@ -40,9 +36,6 @@ def local_html(city):
                     restaurant_name.replace(".", ""),
                 )
 
-            # if s3_object_exists(s3, bucket, output_file_path):
-            #     print("File already exists: {}".format(output_file_path))
-            #     continue
             if os.path.exists(output_file_path):
                 print("File already exists: {}".format(output_file_path))
                 count_created += 1  # Increment the counter when a file already exists
@@ -78,7 +71,6 @@ def local_html(city):
             with open(output_file_path, "w", encoding="utf-8") as f:
                 f.write(html_page)
 
-            # s3.upload_file(output_file_path, bucket, output_file_path)
             print("New File Created: {}".format(output_file_path))
             count_created += 1  # Increment the counter when a new file is created
 

@@ -8,20 +8,11 @@ def parse_local_items(city):
     csv_key = "swiggy/data/restaurants/output/{}/swiggy_locality_{}.csv".format(
         city, city
     )
-    # csv_object = s3.get_object(Bucket=bucket, Key=csv_key)
-    # df = pd.read_csv(pd.io.common.BytesIO(csv_object["Body"].read()))
     df=pd.read_csv(csv_key)
     for index, row in df.iterrows():
         try:
             restaurant_name = row["name"].strip()
 
-            # key = "swiggy/data/restaurants/intermediate/{}/localities/{}/{}_item_HTML.html".format(
-            #     city,
-            #     restaurant_name.replace(".", ""),
-            #     restaurant_name.replace(".", ""),
-            # )
-            # above path work with the local_item.py file
-            
             
             key = "swiggy/data/restaurants/intermediate/{}/localities/{}/{}_{}.html".format(
                 city,
@@ -29,7 +20,6 @@ def parse_local_items(city):
                 city,
                 restaurant_name.replace(".", ""),
             )
-            # html_object = s3.get_object(Bucket=bucket, Key=output_filename)
             with open(key, "r", encoding="utf-8") as f:
                 html_content = f.read()
             output_file_path = (
@@ -73,8 +63,6 @@ def parse_local_items(city):
                 location = res[-1]
                 cuisine = res[-2]
                 duration = res[-3]
-                # print("Name:", name, "Rating:", rating, "Discount:", discount," Cuisine:", cuisine, "Location:", location, "Duration:", duration)
-
                 restaurant_data = {
                     "link": link,
                     "img_url": img_url,
@@ -94,7 +82,6 @@ def parse_local_items(city):
 
             os.makedirs(output_dir, exist_ok=True)
             df.to_csv(output_file_path, index=False)
-            # s3.upload_file(output_file_path, bucket, output_file_path)
             print("Data extracted and saved to", output_file_path)
         except Exception as e:
             print("Error processing row {}: {}".format(index, str(e)))

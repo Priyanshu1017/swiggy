@@ -6,18 +6,10 @@ import os , re
 def parse_menu_items(city):
     print("Parsing menu items for city '{}'".format(city))
 
-    # html_file_path = "swiggy/data/restaurants/intermediate/{}/item_HTML_{}.html".format(
-    #     city, city
-    # )
-    # Above path work with the html_to_items.py file
-    
     html_file_path = "swiggy/data/restaurants/intermediate/{}/swiggy_{}.html".format(city, city)
-    # html_object = s3.get_object(Bucket=bucket, Key=html_file_path)
-    # html_content = html_object['Body'].read().decode('utf-8')
     with open(html_file_path, "r", encoding="utf-8") as f:
         html_content = f.read()
     soup = BeautifulSoup(html_content, "html.parser")
-    data = []
     rest_elements = soup.select('[class*="RestaurantList__RestaurantAnchor"]')
     data = []
     for element in rest_elements:
@@ -50,8 +42,7 @@ def parse_menu_items(city):
         location = res[-1]
         cuisine = res[-2]
         duration = res[-3]
-        # print("Name:", name, "Rating:", rating, "Discount:", discount," Cuisine:", cuisine, "Location:", location, "Duration:", duration)
-
+        
         restaurant_data = {
             "link": link,
             "img_url": img_url,
@@ -74,18 +65,8 @@ def parse_menu_items(city):
     output_dir = os.path.dirname(output_file_path)
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(output_file_path, index=False)
-    # s3.upload_file(output_file_path, bucket, output_file_path)
     print("Data extracted and saved to", output_file_path)
 
 
 if __name__ == "__main__":
-    # city="mumbai"
-    # s3 = boto3.client(
-    #         "s3",
-    #         region_name="ap-south-1",
-    #         aws_access_key_id="AKIATWAW
-
-    # bucket = "swiggy-zomato-scraper"
-    # city = city.capitalize()
-    # parse_menu_items(city, s3, bucket)
     parse_menu_items()

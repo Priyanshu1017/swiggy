@@ -4,6 +4,15 @@ import pandas as pd
 
 
 def rest_json_parser(city):
+    """_summary_ : Takes city as input and get the required file saved from the previous process using the input city. Using that file parse the json and save it locally in the form of a CSV file.
+
+    Args:
+        rest_json_parser (city): city of with the json needs to be parsed.
+
+    Returns:
+        _type_: Saves the csv file locally and return a prompt of successfully parsed file.
+    """
+
     print("Parsing restaurant JSON files for city '{}'".format(city))
     folder_path = f"swiggy/data/menus/intermediate/{city}/"
     json_files = [file for file in os.listdir(folder_path) if file.endswith(".json")]
@@ -28,15 +37,14 @@ def rest_json_parser(city):
             )
             os.remove(file_path)
             continue
-        
+
         try:
             card_info = data.get("data")["cards"][2]
         except :
             print(f"file {file_path} does not contain expected card structure.")
             os.remove(file_path)
             continue
-        
-        
+
         print(file_path)
         rest_info = parse_rest_info(data)
         final_data = parse_menu_info(data, rest_info)
@@ -47,12 +55,13 @@ def item_card(rest_info,item_cards):
     """_summary_
 
     Args:
-        item_cards (list of menu item cards): _list of dictionaries containing menu item details_
+        rest_info (_type_): _description_
+        item_cards (_type_): _description_
 
     Returns:
-        _type_: list of menu item details
+        _type_: _description_
     """
-    
+
     all_items = []
 
     for item_card in item_cards:
@@ -156,5 +165,4 @@ def save_to_csv(final_data, output_file):
 
 if __name__ == "__main__":
 
-    # city = "Jabalpur"
     rest_json_parser()
